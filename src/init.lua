@@ -16,10 +16,23 @@ local NotificationModule = require(Components.Notification)
 local New = Creator.New
 
 local ProtectGui = protectgui or (syn and syn.protect_gui) or function() end
-local GUI = New("ScreenGui", {
-	Parent = RunService:IsStudio() and LocalPlayer.PlayerGui or game:GetService("CoreGui"),
-})
-ProtectGui(GUI)
+-- Cloneref support (adds support for JJsploit/Temple/Electron and other sploits that don't have cloneref or really shit versions of it.)
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/CloneRef.lua", true))()
+
+-- Dex Bypasses
+loadstring(game:HttpGet("https://raw.githubusercontent.com/Babyhamsta/RBLX_Scripts/main/Universal/Bypasses.lua", true))()
+
+local GUI = New("ScreenGui")
+if gethui then
+    GUI.Parent = gethui();
+elseif syn and syn.protect_gui then
+    syn.protect_gui(GUI);
+    GUI.Parent = cloneref(game:GetService("CoreGui"))
+else
+    GUI.Parent = cloneref(game:GetService("CoreGui"))
+end
+
+--ProtectGui(GUI)
 NotificationModule:Init(GUI)
 
 local Library = {
